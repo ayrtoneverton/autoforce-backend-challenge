@@ -2,20 +2,18 @@
 
 one:
   reference: MyString
-  8: MyString
   address: MyText
-  lineItems: MyText
-  totalValue: 1.5
+  line_items: MyText
+  total_value: 1.5
   user: one
-  deliveryService: one
-  purchaseChannel: one
+  delivery_service: one
+  purchase_channel: one
 
 two:
   reference: MyString
-  8: MyString
   address: MyText
-  lineItems: MyText
-  totalValue: 1.5
+  line_items: MyText
+  total_value: 1.5
   user: two
-  deliveryService: two
-  purchaseChannel: two
+  delivery_service: two
+  purchase_channel: two

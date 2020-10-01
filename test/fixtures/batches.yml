@@ -2,10 +2,8 @@
 
 one:
   reference: MyString
-  12: MyString
-  purchaseChannel: one
+  purchase_channel: one
 
 two:
   reference: MyString
-  12: MyString
-  purchaseChannel: two
+  purchase_channel: two

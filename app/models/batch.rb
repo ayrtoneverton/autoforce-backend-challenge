@@ -1,4 +1,4 @@
 class Batch < ApplicationRecord
-  belongs_to :purchaseChannel
+  belongs_to :purchase_channel
   has_many :order
 end

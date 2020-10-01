@@ -13,7 +13,7 @@ Class diagram:
 
 ![](db/class_diagram.jpg)
 
-**Future improvement:** Analyze the best way to work with the "lineItems" field.
+**Future improvement:** Analyze the best way to work with the "line_items" field.
 
 
 # API endpoints
@@ -23,11 +23,11 @@ Class diagram:
 Parameters:
  * reference: String!
  * address: String!
- * lineItems: String!
- * totalValue: Real!
- * user: ID!
- * purchaseChannel: ID!
- * deliveryService: ID!
+ * line_items: String!
+ * total_value: Real!
+ * user_id: ID!
+ * purchase_channel_id: ID!
+ * delivery_service_id: ID!
 
 Notes: order.status = ready
 
@@ -38,10 +38,10 @@ Result: Order
 
 Parameters:
  * reference: String
- * user: ID
- * status: ID
- * purchaseChannel: ID
- * deliveryService: ID
+ * user_id: ID
+ * status_id: ID
+ * purchase_channel_id: ID
+ * delivery_service_id: ID
  * offset: Integer
  * limit: Integer
 
@@ -51,7 +51,7 @@ Result: [Order]!
 ## POST: /batches - Create a Batch
 
 Parameters:
- * purchaseChannel: ID!
+ * purchase_channel: ID!
 
 Notes:
  * batch.reference = "YYYYMM-increment"
@@ -60,16 +60,16 @@ Notes:
 Result: { reference: String, countOrders: Integer }
 
 
-## PUT: /batches - Produce a Batch and Close part of a Batch for a Delivery Service
+## PATCH/PUT: /batches - Produce a Batch and Close part of a Batch for a Delivery Service
 
 Parameters:
  * batch: ID!
- * deliveryService: ID
+ * delivery_service: ID
 
 Notes:
 ```
 if batch.orders.status == closing:
-  deliveryService is required
+  delivery_service is required
   batch.orders.status = sent
 else:
   batch.orders.status = closing
@@ -80,4 +80,4 @@ Result: Batch
 
 ## GET:/report - A simple financial report
 
-Result: [{ purchaseChannel: PurchaseChannel, countOrders: Integer, sumTotal: Real }]
+Result: [{ purchase_channel: PurchaseChannel, count_orders: Integer, sum_total: Real }]

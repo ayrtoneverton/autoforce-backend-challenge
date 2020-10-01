@@ -16,40 +16,47 @@ ActiveRecord::Schema.define(version: 2020_09_30_225847) do
   enable_extension "plpgsql"
 
   create_table "batches", force: :cascade do |t|
-    t.string "reference"
+    t.string "reference", null: false
     t.bigint "purchase_channel_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["purchase_channel_id"], name: "index_batches_on_purchase_channel_id"
+    t.index ["reference"], name: "index_batches_on_reference", unique: true
   end
 
   create_table "delivery_services", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.index ["name"], name: "index_delivery_services_on_name", unique: true
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "reference"
-    t.text "address"
-    t.text "lineItems"
-    t.float "totalValue"
+    t.string "reference", null: false
+    t.text "address", null: false
+    t.text "line_items", null: false
+    t.float "total_value", null: false
     t.bigint "user_id", null: false
+    t.bigint "status_id", null: false
     t.bigint "delivery_service_id", null: false
     t.bigint "purchase_channel_id", null: false
-    t.bigint "batch_id", null: false
+    t.bigint "batch_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["batch_id"], name: "index_orders_on_batch_id"
     t.index ["delivery_service_id"], name: "index_orders_on_delivery_service_id"
     t.index ["purchase_channel_id"], name: "index_orders_on_purchase_channel_id"
+    t.index ["reference"], name: "index_orders_on_reference", unique: true
+    t.index ["status_id"], name: "index_orders_on_status_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "purchase_channels", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.index ["name"], name: "index_purchase_channels_on_name", unique: true
   end
 
   create_table "statuses", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
+    t.index ["name"], name: "index_statuses_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -71,5 +78,6 @@ ActiveRecord::Schema.define(version: 2020_09_30_225847) do
   add_foreign_key "orders", "batches"
   add_foreign_key "orders", "delivery_services"
   add_foreign_key "orders", "purchase_channels"
+  add_foreign_key "orders", "statuses"
   add_foreign_key "orders", "users"
 end
