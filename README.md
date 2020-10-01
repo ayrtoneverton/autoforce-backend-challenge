@@ -80,4 +80,4 @@ Result: Batch
 
 ## GET:/report - A simple financial report
 
-Result: [{ purchase_channel: PurchaseChannel, count_orders: Integer, sum_total: Real }]
+Result: [PurchaseChannel: { id: ID, name: String, count_orders: Integer, sum_total_orders: Real }]
