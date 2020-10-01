@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
 
+  # GET
   def index
     @orders = Order.where(params.permit(
       :reference, :user_id, :status_id,
@@ -8,9 +9,10 @@ class OrdersController < ApplicationController
     .offset(params[:offset])
     .limit(params[:limit])
 
-    render json: @orders
+    render json: @orders, status: :accepted
   end
 
+  # POST
   def create
     @order = Order.create(params.permit(
         :reference, :address, :line_items, :total_value,

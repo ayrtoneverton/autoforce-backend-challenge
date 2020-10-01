@@ -18,7 +18,7 @@ Class diagram:
 
 # API endpoints
 
-## POST: /orders - Create a new Order
+### POST: /orders - Create a new Order
 
 Parameters:
  * reference: String!
@@ -34,7 +34,7 @@ Notes: order.status = ready
 Result: Order
 
 
-## GET: /orders - Get the status of an Order and List the Orders of a Purchase Channel
+### GET: /orders - Get the status of an Order and List the Orders of a Purchase Channel
 
 Parameters:
  * reference: String
@@ -48,36 +48,35 @@ Parameters:
 Result: [Order]!
 
 
-## POST: /batches - Create a Batch
+### POST: /batches - Create a Batch
 
 Parameters:
- * purchase_channel: ID!
+ * purchase_channel_id: ID!
 
 Notes:
  * batch.reference = "YYYYMM-increment"
  * batch.orders.status = production
 
-Result: { reference: String, countOrders: Integer }
+Result: { reference: String, count_orders: Integer }!
 
 
-## PATCH/PUT: /batches - Produce a Batch and Close part of a Batch for a Delivery Service
+### PATCH/PUT: /batches/$id - Produce a Batch and Close part of a Batch for a Delivery Service
 
 Parameters:
- * batch: ID!
- * delivery_service: ID
+ * $id: ID!
+ * delivery_service_id: ID
 
 Notes:
 ```
-if batch.orders.status == closing:
-  delivery_service is required
-  batch.orders.status = sent
+if delivery_service_id:
+  batch.orders[delivery_service].status = sent
 else:
   batch.orders.status = closing
 ```
 
-Result: Batch
+Result: { count_orders_moved: Integer }!
 
 
-## GET:/report - A simple financial report
+### GET:/report - A simple financial report
 
-Result: [PurchaseChannel: { id: ID, name: String, count_orders: Integer, sum_total_orders: Real }]
+Result: [PurchaseChannel: { id: ID, name: String, count_orders: Integer, sum_total_orders: Real }]!
