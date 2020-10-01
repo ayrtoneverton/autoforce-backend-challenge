@@ -10,10 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_005103) do
+ActiveRecord::Schema.define(version: 2020_09_30_225847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "batches", force: :cascade do |t|
+    t.string "reference"
+    t.bigint "purchase_channel_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["purchase_channel_id"], name: "index_batches_on_purchase_channel_id"
+  end
+
+  create_table "delivery_services", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "reference"
+    t.text "address"
+    t.text "lineItems"
+    t.float "totalValue"
+    t.bigint "user_id", null: false
+    t.bigint "delivery_service_id", null: false
+    t.bigint "purchase_channel_id", null: false
+    t.bigint "batch_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["batch_id"], name: "index_orders_on_batch_id"
+    t.index ["delivery_service_id"], name: "index_orders_on_delivery_service_id"
+    t.index ["purchase_channel_id"], name: "index_orders_on_purchase_channel_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
+  create_table "purchase_channels", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "statuses", force: :cascade do |t|
+    t.string "name"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -30,4 +67,9 @@ ActiveRecord::Schema.define(version: 2020_09_30_005103) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "batches", "purchase_channels"
+  add_foreign_key "orders", "batches"
+  add_foreign_key "orders", "delivery_services"
+  add_foreign_key "orders", "purchase_channels"
+  add_foreign_key "orders", "users"
 end

@@ -1,0 +1,2 @@
+class PurchaseChannel < ApplicationRecord
+end
